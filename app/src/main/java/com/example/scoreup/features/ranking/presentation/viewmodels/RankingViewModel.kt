@@ -24,6 +24,7 @@ class RankingViewModel @Inject constructor(
         getRanking()
     }
 
+
     fun getRanking() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }

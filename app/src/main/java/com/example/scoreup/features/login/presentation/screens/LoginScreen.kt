@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.scoreup.R
-import com.example.scoreup.core.ui.theme.*
 import com.example.scoreup.features.login.presentation.viewmodels.AuthViewModel
 
 @Composable
@@ -36,6 +35,7 @@ fun LoginScreen(
     val uiState by viewModel.uiState.collectAsState()
     var passwordVisible by remember { mutableStateOf(false) }
     val context = LocalContext.current
+    val colorScheme = MaterialTheme.colorScheme
 
     // Navegación al tener éxito
     LaunchedEffect(uiState.user) {
@@ -58,7 +58,7 @@ fun LoginScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(backgroundDark),
+            .background(colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -79,9 +79,9 @@ fun LoginScreen(
             )
 
             Card(
-                colors = CardDefaults.cardColors(containerColor = surfaceDark),
+                colors = CardDefaults.cardColors(containerColor = colorScheme.surface),
                 shape = RoundedCornerShape(20.dp),
-                border = BorderStroke(1.dp, BrandBlue),
+                border = BorderStroke(1.dp, colorScheme.primary),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
@@ -92,7 +92,7 @@ fun LoginScreen(
                         text = "Iniciar sesión",
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
-                        color = onBackgroundDark,
+                        color = colorScheme.onBackground,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
 
@@ -103,15 +103,15 @@ fun LoginScreen(
                         placeholder = { Text("example@example.com") },
                         singleLine = true,
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = BrandBlue,
-                            unfocusedBorderColor = outlineDark,
-                            focusedLabelColor = BrandBlue,
-                            unfocusedLabelColor = outlineDark,
-                            focusedTextColor = onSurfaceDark,
-                            unfocusedTextColor = onSurfaceDark,
-                            cursorColor = BrandBlue,
-                            unfocusedContainerColor = surfaceContainerDark,
-                            focusedContainerColor = surfaceContainerDark
+                            focusedBorderColor = colorScheme.primary,
+                            unfocusedBorderColor = colorScheme.outline,
+                            focusedLabelColor = colorScheme.primary,
+                            unfocusedLabelColor = colorScheme.outline,
+                            focusedTextColor = colorScheme.onSurface,
+                            unfocusedTextColor = colorScheme.onSurface,
+                            cursorColor = colorScheme.primary,
+                            unfocusedContainerColor = colorScheme.surfaceContainer,
+                            focusedContainerColor = colorScheme.surfaceContainer
                         ),
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.fillMaxWidth()
@@ -129,20 +129,20 @@ fun LoginScreen(
                                 Icon(
                                     imageVector = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
                                     contentDescription = "Toggle password visibility",
-                                    tint = outlineDark
+                                    tint = colorScheme.outline
                                 )
                             }
                         },
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = BrandBlue,
-                            unfocusedBorderColor = outlineDark,
-                            focusedLabelColor = BrandBlue,
-                            unfocusedLabelColor = outlineDark,
-                            focusedTextColor = onSurfaceDark,
-                            unfocusedTextColor = onSurfaceDark,
-                            cursorColor = BrandBlue,
-                            unfocusedContainerColor = surfaceContainerDark,
-                            focusedContainerColor = surfaceContainerDark
+                            focusedBorderColor = colorScheme.primary,
+                            unfocusedBorderColor = colorScheme.outline,
+                            focusedLabelColor = colorScheme.primary,
+                            unfocusedLabelColor = colorScheme.outline,
+                            focusedTextColor = colorScheme.onSurface,
+                            unfocusedTextColor = colorScheme.onSurface,
+                            cursorColor = colorScheme.primary,
+                            unfocusedContainerColor = colorScheme.surfaceContainer,
+                            focusedContainerColor = colorScheme.surfaceContainer
                         ),
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.fillMaxWidth()
@@ -151,14 +151,14 @@ fun LoginScreen(
                     if (uiState.isLoading) {
                         CircularProgressIndicator(
                             modifier = Modifier.align(Alignment.CenterHorizontally),
-                            color = BrandGreen
+                            color = colorScheme.tertiary
                         )
                     } else {
                         Button(
                             onClick = viewModel::login,
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = BrandGreen,
-                                contentColor = androidx.compose.ui.graphics.Color.Black
+                                containerColor = colorScheme.tertiary,
+                                contentColor = colorScheme.onTertiary
                             ),
                             shape = RoundedCornerShape(14.dp),
                             modifier = Modifier
@@ -181,7 +181,7 @@ fun LoginScreen(
                         Text(
                             text = "¿Aún no tienes una cuenta? ",
                             fontSize = 13.sp,
-                            color = outlineDark
+                            color = colorScheme.outline
                         )
                         TextButton(
                             onClick = { navController.navigate("register") },
@@ -191,7 +191,7 @@ fun LoginScreen(
                                 text = "Registrarme",
                                 fontSize = 13.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = BrandGreen
+                                color = colorScheme.tertiary
                             )
                         }
                     }

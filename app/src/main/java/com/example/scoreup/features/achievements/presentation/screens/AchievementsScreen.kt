@@ -16,12 +16,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.scoreup.core.ui.theme.extendedColors
 import com.example.scoreup.features.achievements.domain.entities.Achievement
 import com.example.scoreup.features.achievements.presentation.viewmodels.AchievementViewModel
 
@@ -30,7 +30,11 @@ fun AchievementsScreen(
     viewModel: AchievementViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val colorScheme = MaterialTheme.colorScheme
+    val extended = MaterialTheme.extendedColors
+
     Scaffold(
+        containerColor = colorScheme.background
     ) { paddingValues ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -46,13 +50,13 @@ fun AchievementsScreen(
                 Column(modifier = Modifier.padding(top = 16.dp)) {
                     Text(
                         text = "Logros",
-                        color = Color.White,
+                        color = colorScheme.onSurface,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = "${uiState.totalUnlocked} de ${uiState.totalAchievements} desbloqueados",
-                        color = Color.Gray,
+                        color = colorScheme.onSurfaceVariant,
                         fontSize = 14.sp,
                         modifier = Modifier.padding(top = 4.dp)
                     )
@@ -65,13 +69,13 @@ fun AchievementsScreen(
                         .fillMaxWidth()
                         .padding(vertical = 8.dp)
                         .height(10.dp)
-                        .background(Color(0xFF1B1B1B), CircleShape)
+                        .background(colorScheme.surfaceContainerHighest, CircleShape)
                 ) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth(uiState.totalUnlocked.toFloat() / uiState.totalAchievements)
                             .fillMaxHeight()
-                            .background(Color(0xFFFF9F4B), CircleShape)
+                            .background(extended.accentOrange, CircleShape)
                     )
                 }
             }
@@ -89,8 +93,9 @@ fun AchievementsScreen(
 
 @Composable
 fun AchievementCard(achievement: Achievement) {
-    val borderColor = if (achievement.isUnlocked) Color(0xFF4BFFAB) else Color.Transparent
-    val iconColor = if (achievement.isUnlocked) Color(0xFF4BFFAB) else Color.Gray
+    val colorScheme = MaterialTheme.colorScheme
+    val borderColor = if (achievement.isUnlocked) colorScheme.tertiary else androidx.compose.ui.graphics.Color.Transparent
+    val iconColor = if (achievement.isUnlocked) colorScheme.tertiary else colorScheme.onSurfaceVariant
     val icon: ImageVector = when(achievement.iconType) {
         "footprint" -> Icons.Default.Pets
         "lock" -> Icons.Default.Lock
@@ -102,7 +107,7 @@ fun AchievementCard(achievement: Achievement) {
             .aspectRatio(0.85f)
             .fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF0A121D)),
+        colors = CardDefaults.cardColors(containerColor = colorScheme.surfaceContainerLowest),
         border = if (achievement.isUnlocked) androidx.compose.foundation.BorderStroke(1.dp, borderColor) else null
     ) {
         Column(
@@ -113,7 +118,7 @@ fun AchievementCard(achievement: Achievement) {
             Surface(
                 modifier = Modifier.size(50.dp),
                 shape = CircleShape,
-                color = if (achievement.isUnlocked) Color(0xFF00241A) else Color(0xFF1E1E1E)
+                color = if (achievement.isUnlocked) colorScheme.tertiaryContainer else colorScheme.surfaceContainerHigh
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Icon(
@@ -129,13 +134,13 @@ fun AchievementCard(achievement: Achievement) {
             
             Text(
                 text = achievement.title,
-                color = Color.White,
+                color = colorScheme.onSurface,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
             Text(
                 text = achievement.description,
-                color = Color.Gray,
+                color = colorScheme.onSurfaceVariant,
                 fontSize = 10.sp,
                 modifier = Modifier.padding(top = 4.dp),
                 textAlign = androidx.compose.ui.text.style.TextAlign.Center
@@ -143,13 +148,13 @@ fun AchievementCard(achievement: Achievement) {
             Spacer(modifier = Modifier.height(12.dp))
 
             Surface(
-                color = Color(0xFF1E3A5F).copy(alpha = 0.4f),
+                color = colorScheme.primaryContainer.copy(alpha = 0.4f),
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
                     text = achievement.category,
                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
-                    color = Color(0xFF4B9FFF),
+                    color = colorScheme.primary,
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -160,19 +165,20 @@ fun AchievementCard(achievement: Achievement) {
 
 @Composable
 fun StatsSection() {
+    val colorScheme = MaterialTheme.colorScheme
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF001A2C)),
-        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF1E3A5F))
+        colors = CardDefaults.cardColors(containerColor = colorScheme.surfaceContainerLow),
+        border = androidx.compose.foundation.BorderStroke(1.dp, colorScheme.primaryContainer)
     ) {
         Column(
             modifier = Modifier.padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text("Estadisticas", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+            Text("Estadisticas", color = colorScheme.onSurface, fontWeight = FontWeight.Bold, fontSize = 16.sp)
             
             StatRow("Puntos totales", "185")
             StatRow("Retos completados", "1")
@@ -183,11 +189,12 @@ fun StatsSection() {
 
 @Composable
 fun StatRow(label: String, value: String) {
+    val colorScheme = MaterialTheme.colorScheme
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(label, color = Color.Gray, fontSize = 14.sp)
-        Text(value, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+        Text(label, color = colorScheme.onSurfaceVariant, fontSize = 14.sp)
+        Text(value, color = colorScheme.onSurface, fontWeight = FontWeight.Bold, fontSize = 14.sp)
     }
 }

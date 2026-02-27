@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.scoreup.core.ui.theme.extendedColors
 import com.example.scoreup.features.ranking.domain.entities.RankingUser
 import com.example.scoreup.features.ranking.presentation.viewmodels.RankingViewModel
 
@@ -30,8 +31,10 @@ fun RankingScreen(
     viewModel: RankingViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val colorScheme = MaterialTheme.colorScheme
 
     Scaffold(
+        containerColor = colorScheme.background
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -41,7 +44,7 @@ fun RankingScreen(
         ) {
             Text(
                 text = "Ranking",
-                color = Color.White,
+                color = colorScheme.onSurface,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = 16.dp)
@@ -49,7 +52,7 @@ fun RankingScreen(
 
             if (uiState.isLoading) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(color = Color(0xFF4BFFAB))
+                    CircularProgressIndicator(color = colorScheme.tertiary)
                 }
             } else {
                 LazyColumn(
@@ -63,7 +66,7 @@ fun RankingScreen(
                             PodiumSection(top3)
                         }
                     }
-                    val restOfRanking = uiState.ranking.filter { it.posicion > 0 } // Incluimos todos para ver el diseño
+                    val restOfRanking = uiState.ranking.filter { it.posicion > 0 }
                     items(restOfRanking) { user ->
                         RankingItem(user)
                     }
@@ -78,6 +81,7 @@ fun PodiumSection(topUsers: List<RankingUser>) {
     val first = topUsers.find { it.posicion == 1 }
     val second = topUsers.find { it.posicion == 2 }
     val third = topUsers.find { it.posicion == 3 }
+    val extended = MaterialTheme.extendedColors
 
     Row(
         modifier = Modifier
@@ -87,7 +91,7 @@ fun PodiumSection(topUsers: List<RankingUser>) {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.Bottom
     ) {
-        second?.let { PodiumBar(it, Modifier.weight(1f), height = 140.dp, Color(0xFF1A2B3C)) }
+        second?.let { PodiumBar(it, Modifier.weight(1f), height = 140.dp, extended.podiumSecond) }
         first?.let { 
             Column(
                 modifier = Modifier.weight(1.2f),
@@ -96,19 +100,21 @@ fun PodiumSection(topUsers: List<RankingUser>) {
                 Icon(
                     imageVector = Icons.Default.EmojiEvents,
                     contentDescription = null,
-                    tint = Color(0xFFFFD700), // Dorado
+                    tint = extended.accentGold,
                     modifier = Modifier.size(32.dp)
                 )
-                PodiumBar(it, Modifier, height = 180.dp, Color(0xFF4A3419), hasCrown = true)
+                PodiumBar(it, Modifier, height = 180.dp, extended.podiumFirst, hasCrown = true)
             }
         }
 
-        third?.let { PodiumBar(it, Modifier.weight(1f), height = 120.dp, Color(0xFF2D1B36)) }
+        third?.let { PodiumBar(it, Modifier.weight(1f), height = 120.dp, extended.podiumThird) }
     }
 }
 
 @Composable
 fun PodiumBar(user: RankingUser, modifier: Modifier, height: androidx.compose.ui.unit.Dp, color: Color, hasCrown: Boolean = false) {
+    val colorScheme = MaterialTheme.colorScheme
+    val extended = MaterialTheme.extendedColors
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -117,17 +123,17 @@ fun PodiumBar(user: RankingUser, modifier: Modifier, height: androidx.compose.ui
         Surface(
             modifier = Modifier.size(60.dp),
             shape = CircleShape,
-            color = Color(0xFF1E3A5F)
+            color = colorScheme.primaryContainer
         ) {
             Box(contentAlignment = Alignment.Center) {
                 Text(
                     text = user.nombre.take(2).uppercase(),
-                    color = Color.White,
+                    color = colorScheme.onPrimaryContainer,
                     fontWeight = FontWeight.Bold
                 )
             }
         }
-        Text(user.nombre, color = Color.Gray, fontSize = 12.sp, modifier = Modifier.padding(vertical = 4.dp))
+        Text(user.nombre, color = colorScheme.onSurfaceVariant, fontSize = 12.sp, modifier = Modifier.padding(vertical = 4.dp))
         
         Card(
             modifier = Modifier
@@ -135,15 +141,15 @@ fun PodiumBar(user: RankingUser, modifier: Modifier, height: androidx.compose.ui
                 .height(height),
             shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
             colors = CardDefaults.cardColors(containerColor = color),
-            border = if (hasCrown) androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFF9F4B)) else null
+            border = if (hasCrown) androidx.compose.foundation.BorderStroke(1.dp, extended.podiumFirstBorder) else null
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(user.posicion.toString(), color = Color.White, fontSize = 28.sp, fontWeight = FontWeight.Bold)
-                Text("${user.puntos} pts", color = Color.Gray, fontSize = 12.sp)
+                Text(user.posicion.toString(), color = colorScheme.onSurface, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+                Text("${user.puntos} pts", color = colorScheme.onSurfaceVariant, fontSize = 12.sp)
             }
         }
     }
@@ -151,8 +157,9 @@ fun PodiumBar(user: RankingUser, modifier: Modifier, height: androidx.compose.ui
 
 @Composable
 fun RankingItem(user: RankingUser) {
-    val backgroundColor = if (user.esUsuarioActual) Color(0xFF00241A) else Color(0xFF0A121D)
-    val borderColor = if (user.esUsuarioActual) Color(0xFF4BFFAB) else Color.Transparent
+    val colorScheme = MaterialTheme.colorScheme
+    val backgroundColor = if (user.esUsuarioActual) colorScheme.tertiaryContainer else colorScheme.surfaceContainerLowest
+    val borderColor = if (user.esUsuarioActual) colorScheme.tertiary else Color.Transparent
 
     Card(
         modifier = Modifier
@@ -170,7 +177,7 @@ fun RankingItem(user: RankingUser) {
         ) {
             Text(
                 text = "#${user.posicion}",
-                color = if (user.esUsuarioActual) Color(0xFF4BFFAB) else Color.Gray,
+                color = if (user.esUsuarioActual) colorScheme.tertiary else colorScheme.onSurfaceVariant,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.width(30.dp)
@@ -179,12 +186,12 @@ fun RankingItem(user: RankingUser) {
             Surface(
                 modifier = Modifier.size(40.dp),
                 shape = CircleShape,
-                color = Color(0xFF1E3A5F)
+                color = colorScheme.primaryContainer
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Text(
                         text = user.nombre.split(" ").take(2).joinToString("") { it.take(1) }.uppercase(),
-                        color = Color.White,
+                        color = colorScheme.onPrimaryContainer,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -195,7 +202,7 @@ fun RankingItem(user: RankingUser) {
 
             Text(
                 text = user.nombre,
-                color = Color.White,
+                color = colorScheme.onSurface,
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier.weight(1f)
@@ -206,12 +213,12 @@ fun RankingItem(user: RankingUser) {
                     Icon(
                         imageVector = if (user.tendencia > 0) Icons.Default.ArrowUpward else Icons.Default.ArrowDownward,
                         contentDescription = null,
-                        tint = if (user.tendencia > 0) Color(0xFF4BFFAB) else Color(0xFFFF4B4B),
+                        tint = if (user.tendencia > 0) colorScheme.tertiary else colorScheme.error,
                         modifier = Modifier.size(14.dp)
                     )
                     Text(
-                        text = Math.abs(user.tendencia * 2).toString(), // Simulación de cambio
-                        color = if (user.tendencia > 0) Color(0xFF4BFFAB) else Color(0xFFFF4B4B),
+                        text = Math.abs(user.tendencia * 2).toString(),
+                        color = if (user.tendencia > 0) colorScheme.tertiary else colorScheme.error,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(horizontal = 4.dp)
@@ -221,7 +228,7 @@ fun RankingItem(user: RankingUser) {
 
             Text(
                 text = "${user.puntos} pts",
-                color = Color.White,
+                color = colorScheme.onSurface,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )

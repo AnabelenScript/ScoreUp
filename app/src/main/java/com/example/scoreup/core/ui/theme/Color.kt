@@ -10,7 +10,7 @@ val BrandBlue = Color(0xFF004888)
 val BrandBlueContainer = Color(0xFF0A5EA8)
 val BrandBlueLightSurface = Color(0xFFE6F1FA)
 
-val BrandGreen = Color(0xFF41F3A3)
+val BrandGreen = Color(0xFF4BFFAB)
 val BrandGreenPressed = Color(0xFF2DD88D)
 
 // ========================
@@ -131,7 +131,7 @@ val surfaceContainerHighestLightHighContrast = Color(0xFFC2C7C9)
 val primaryDark = Color(0xFF4DA3FF)
 val onPrimaryDark = Color(0xFF002744)
 
-val primaryContainerDark = Color(0xFF003C70)
+val primaryContainerDark = Color(0xFF1E3A5F)
 val onPrimaryContainerDark = Color(0xFFFFFFFF)
 
 val secondaryDark = Color(0xFF7CC4FF)
@@ -154,11 +154,22 @@ val inverseOnSurfaceDark = Color(0xFF2B3133)
 val inversePrimaryDark = Color(0xFF34618D)
 val surfaceDimDark = Color(0xFF0E1415)
 val surfaceBrightDark = Color(0xFF343A3B)
-val surfaceContainerLowestDark = Color(0xFF090F10)
-val surfaceContainerLowDark = Color(0xFF171D1E)
+val surfaceContainerLowestDark = Color(0xFF0A121D)
+val surfaceContainerLowDark = Color(0xFF001A2C)
 val surfaceContainerDark = Color(0xFF1B2122)
 val surfaceContainerHighDark = Color(0xFF252B2C)
 val surfaceContainerHighestDark = Color(0xFF303637)
+
+val surfaceVariantDark = Color(0xFF1A2B3C)
+val onSurfaceVariantDark = Color(0xFF9E9E9E)
+val tertiaryContainerDark = Color(0xFF00241A)
+val onTertiaryContainerDark = Color(0xFF4BFFAB)
+val secondaryContainerDark = Color(0xFF003C70)
+val onSecondaryContainerDark = Color(0xFFD5E3FF)
+val errorDark = Color(0xFFFF4B4B)
+val onErrorDark = Color(0xFFFFFFFF)
+val errorContainerDark = Color(0xFF93000A)
+val onErrorContainerDark = Color(0xFFFFDAD6)
 
 val primaryDarkMediumContrast = Color(0xFFC5DFFF)
 val onPrimaryDarkMediumContrast = Color(0xFF002745)
@@ -262,3 +273,15 @@ val onCustomColor1DarkHighContrast = Color(0xFF000000)
 val customColor1ContainerDarkHighContrast = Color(0xFFA2C4FB)
 val onCustomColor1ContainerDarkHighContrast = Color(0xFF000B1E)
 
+// ========================
+// EXTENDED CUSTOM COLORS
+// ========================
+
+val AccentOrange = Color(0xFFFF9F4B)
+val AccentGold = Color(0xFFFFD700)
+val ProgressTrackDark = Color(0xFF1B3D37)
+val ProgressTrackLight = Color(0xFFB8E6D0)
+val PodiumFirst = Color(0xFF4A3419)
+val PodiumSecond = Color(0xFF1A2B3C)
+val PodiumThird = Color(0xFF2D1B36)
+val PodiumFirstBorder = Color(0xFFFF9F4B)

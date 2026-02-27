@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.scoreup.core.ui.theme.*
+import com.example.scoreup.core.ui.theme.extendedColors
 import com.example.scoreup.features.home.domain.entities.Challenge
 import com.example.scoreup.features.home.presentation.viewmodels.HomeViewModel
 
@@ -30,9 +30,11 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val colorScheme = MaterialTheme.colorScheme
+    val extended = MaterialTheme.extendedColors
 
     Scaffold(
-        containerColor = backgroundDark
+        containerColor = colorScheme.background
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
@@ -49,18 +51,18 @@ fun HomeScreen(
                     Surface(
                         modifier = Modifier.size(50.dp),
                         shape = CircleShape,
-                        color = Color(0xFF1E3A5F)
+                        color = colorScheme.primaryContainer
                     ) {
                         Box(contentAlignment = Alignment.Center) {
-                            Text("CM", color = Color.White, fontWeight = FontWeight.Bold)
+                            Text("CM", color = colorScheme.onPrimaryContainer, fontWeight = FontWeight.Bold)
                         }
                     }
                     Spacer(modifier = Modifier.width(12.dp))
                     Column {
-                        Text("Bienvenido de nuevo", color = Color.Gray, fontSize = 14.sp)
+                        Text("Bienvenido de nuevo", color = colorScheme.onSurfaceVariant, fontSize = 14.sp)
                         Text(
                             "Carlos Molina Mendoza",
-                            color = Color.White,
+                            color = colorScheme.onSurface,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -78,21 +80,21 @@ fun HomeScreen(
                         icon = Icons.Default.StarBorder,
                         value = "185",
                         label = "Puntos",
-                        iconColor = Color(0xFFFF4B4B)
+                        iconColor = colorScheme.error
                     )
                     StatCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.EmojiEvents,
                         value = "#4",
                         label = "Ranking",
-                        iconColor = Color(0xFF4BFFAB)
+                        iconColor = colorScheme.tertiary
                     )
                     StatCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.LocalFireDepartment,
                         value = "7",
                         label = "Días activo",
-                        iconColor = Color(0xFFFF9F4B)
+                        iconColor = extended.accentOrange
                     )
                 }
             }
@@ -101,7 +103,7 @@ fun HomeScreen(
                 item {
                     Text(
                         "Retos activos (${activeChallenges.size})",
-                        color = Color.White,
+                        color = colorScheme.onSurface,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp
                     )
@@ -116,7 +118,7 @@ fun HomeScreen(
                 item {
                     Text(
                         "Completados (${completedChallenges.size})",
-                        color = Color.White,
+                        color = colorScheme.onSurface,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp
                     )
@@ -128,7 +130,7 @@ fun HomeScreen(
             item {
                 Text(
                     "Logros recientes",
-                    color = Color.White,
+                    color = colorScheme.onSurface,
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 )
@@ -142,19 +144,19 @@ fun HomeScreen(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.Pets,
                         label = "Primeros pasos",
-                        iconColor = Color(0xFF4BFFAB)
+                        iconColor = colorScheme.tertiary
                     )
                     AchievementCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.RocketLaunch,
                         label = "Productivo",
-                        iconColor = Color(0xFFFF9F4B)
+                        iconColor = extended.accentOrange
                     )
                     AchievementCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.MenuBook,
                         label = "Buen estudiante",
-                        iconColor = Color(0xFF4B9FFF)
+                        iconColor = colorScheme.primary
                     )
                 }
             }
@@ -164,10 +166,11 @@ fun HomeScreen(
 
 @Composable
 fun StatCard(modifier: Modifier, icon: ImageVector, value: String, label: String, iconColor: Color) {
+    val colorScheme = MaterialTheme.colorScheme
     Card(
         modifier = modifier.height(110.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF0A121D))
+        colors = CardDefaults.cardColors(containerColor = colorScheme.surfaceContainerLowest)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -187,18 +190,19 @@ fun StatCard(modifier: Modifier, icon: ImageVector, value: String, label: String
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Text(value, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            Text(label, color = Color.Gray, fontSize = 12.sp)
+            Text(value, color = colorScheme.onSurface, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Text(label, color = colorScheme.onSurfaceVariant, fontSize = 12.sp)
         }
     }
 }
 
 @Composable
 fun AchievementCard(modifier: Modifier, icon: ImageVector, label: String, iconColor: Color) {
+    val colorScheme = MaterialTheme.colorScheme
     Card(
         modifier = modifier.height(110.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF0A121D))
+        colors = CardDefaults.cardColors(containerColor = colorScheme.surfaceContainerLowest)
     ) {
         Column(
             modifier = Modifier.fillMaxSize().padding(8.dp),
@@ -220,7 +224,7 @@ fun AchievementCard(modifier: Modifier, icon: ImageVector, label: String, iconCo
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 label,
-                color = Color.Gray,
+                color = colorScheme.onSurfaceVariant,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = androidx.compose.ui.text.style.TextAlign.Center
@@ -231,11 +235,13 @@ fun AchievementCard(modifier: Modifier, icon: ImageVector, label: String, iconCo
 
 @Composable
 fun ChallengeItem(challenge: Challenge) {
+    val colorScheme = MaterialTheme.colorScheme
+    val extended = MaterialTheme.extendedColors
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF001A2C)),
-        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF1E3A5F))
+        colors = CardDefaults.cardColors(containerColor = colorScheme.surfaceContainerLow),
+        border = androidx.compose.foundation.BorderStroke(1.dp, colorScheme.primaryContainer)
     ) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Row(
@@ -244,37 +250,37 @@ fun ChallengeItem(challenge: Challenge) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Surface(
-                    color = Color(0xFF1E3A5F),
+                    color = colorScheme.primaryContainer,
                     shape = RoundedCornerShape(12.dp)
                 ) {
                     Text(
                         text = challenge.materia,
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
-                        color = Color(0xFF4B9FFF),
+                        color = colorScheme.primary,
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp
                     )
                 }
-                Icon(Icons.Default.ChevronRight, null, tint = Color.Gray)
+                Icon(Icons.Default.ChevronRight, null, tint = colorScheme.onSurfaceVariant)
             }
 
-            Text(challenge.descripcion, color = Color.White, fontSize = 15.sp, fontWeight = FontWeight.Bold)
+            Text(challenge.descripcion, color = colorScheme.onSurface, fontSize = 15.sp, fontWeight = FontWeight.Bold)
 
             Box(modifier = Modifier.fillMaxWidth()) {
-                Box(modifier = Modifier.fillMaxWidth().height(8.dp).background(Color(0xFF1B3D37), CircleShape))
-                Box(modifier = Modifier.fillMaxWidth(0.4f).height(8.dp).background(Color(0xFF4BFFAB), CircleShape))
+                Box(modifier = Modifier.fillMaxWidth().height(8.dp).background(extended.progressTrack, CircleShape))
+                Box(modifier = Modifier.fillMaxWidth(0.4f).height(8.dp).background(colorScheme.tertiary, CircleShape))
                 Text(
                     "2/${challenge.meta}",
                     modifier = Modifier.align(Alignment.CenterEnd).offset(y = 12.dp),
-                    color = Color.White,
+                    color = colorScheme.onSurface,
                     fontSize = 11.sp
                 )
             }
 
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp)) {
-                Icon(Icons.Default.Schedule, null, tint = Color.Gray, modifier = Modifier.size(14.dp))
+                Icon(Icons.Default.Schedule, null, tint = colorScheme.onSurfaceVariant, modifier = Modifier.size(14.dp))
                 Spacer(modifier = Modifier.width(4.dp))
-                Text(challenge.fechaLimite, color = Color.Gray, fontSize = 12.sp)
+                Text(challenge.fechaLimite, color = colorScheme.onSurfaceVariant, fontSize = 12.sp)
             }
         }
     }

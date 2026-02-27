@@ -9,6 +9,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -19,7 +20,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.scoreup.R
-import com.example.scoreup.core.ui.theme.*
 import com.example.scoreup.features.login.presentation.viewmodels.AuthViewModel
 
 @Composable
@@ -30,6 +30,7 @@ fun RegisterScreen(
     val uiState by viewModel.uiState.collectAsState()
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
+    val colorScheme = MaterialTheme.colorScheme
 
     LaunchedEffect(uiState.user) {
         if (uiState.user != null) {
@@ -42,13 +43,13 @@ fun RegisterScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(backgroundDark),
+            .background(colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
 
         if (uiState.isLoading) {
             CircularProgressIndicator(
-                color = BrandGreen
+                color = colorScheme.tertiary
             )
         } else {
 
@@ -72,10 +73,10 @@ fun RegisterScreen(
 
                 Card(
                     colors = CardDefaults.cardColors(
-                        containerColor = surfaceDark
+                        containerColor = colorScheme.surface
                     ),
                     shape = RoundedCornerShape(20.dp),
-                    border = BorderStroke(1.dp, BrandBlue),
+                    border = BorderStroke(1.dp, colorScheme.primary),
                     modifier = Modifier.fillMaxWidth()
                 ) {
 
@@ -88,7 +89,7 @@ fun RegisterScreen(
                             text = "Crear cuenta",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
-                            color = onBackgroundDark,
+                            color = colorScheme.onBackground,
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
 
@@ -101,15 +102,15 @@ fun RegisterScreen(
                             singleLine = true,
                             modifier = Modifier.fillMaxWidth(),
                             colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = BrandBlue,
-                                unfocusedBorderColor = outlineDark,
-                                focusedLabelColor = BrandBlue,
-                                unfocusedLabelColor = outlineDark,
-                                focusedTextColor = onSurfaceDark,
-                                unfocusedTextColor = onSurfaceDark,
-                                cursorColor = BrandBlue,
-                                unfocusedContainerColor = surfaceContainerDark,
-                                focusedContainerColor = surfaceContainerDark
+                                focusedBorderColor = colorScheme.primary,
+                                unfocusedBorderColor = colorScheme.outline,
+                                focusedLabelColor = colorScheme.primary,
+                                unfocusedLabelColor = colorScheme.outline,
+                                focusedTextColor = colorScheme.onSurface,
+                                unfocusedTextColor = colorScheme.onSurface,
+                                cursorColor = colorScheme.primary,
+                                unfocusedContainerColor = colorScheme.surfaceContainer,
+                                focusedContainerColor = colorScheme.surfaceContainer
                             ),
                             shape = RoundedCornerShape(12.dp)
                         )
@@ -123,15 +124,15 @@ fun RegisterScreen(
                             singleLine = true,
                             modifier = Modifier.fillMaxWidth(),
                             colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = BrandBlue,
-                                unfocusedBorderColor = outlineDark,
-                                focusedLabelColor = BrandBlue,
-                                unfocusedLabelColor = outlineDark,
-                                focusedTextColor = onSurfaceDark,
-                                unfocusedTextColor = onSurfaceDark,
-                                cursorColor = BrandBlue,
-                                unfocusedContainerColor = surfaceContainerDark,
-                                focusedContainerColor = surfaceContainerDark
+                                focusedBorderColor = colorScheme.primary,
+                                unfocusedBorderColor = colorScheme.outline,
+                                focusedLabelColor = colorScheme.primary,
+                                unfocusedLabelColor = colorScheme.outline,
+                                focusedTextColor = colorScheme.onSurface,
+                                unfocusedTextColor = colorScheme.onSurface,
+                                cursorColor = colorScheme.primary,
+                                unfocusedContainerColor = colorScheme.surfaceContainer,
+                                focusedContainerColor = colorScheme.surfaceContainer
                             ),
                             shape = RoundedCornerShape(12.dp)
                         )
@@ -154,15 +155,15 @@ fun RegisterScreen(
                             },
                             modifier = Modifier.fillMaxWidth(),
                             colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = BrandBlue,
-                                unfocusedBorderColor = outlineDark,
-                                focusedLabelColor = BrandBlue,
-                                unfocusedLabelColor = outlineDark,
-                                focusedTextColor = onSurfaceDark,
-                                unfocusedTextColor = onSurfaceDark,
-                                cursorColor = BrandBlue,
-                                unfocusedContainerColor = surfaceContainerDark,
-                                focusedContainerColor = surfaceContainerDark
+                                focusedBorderColor = colorScheme.primary,
+                                unfocusedBorderColor = colorScheme.outline,
+                                focusedLabelColor = colorScheme.primary,
+                                unfocusedLabelColor = colorScheme.outline,
+                                focusedTextColor = colorScheme.onSurface,
+                                unfocusedTextColor = colorScheme.onSurface,
+                                cursorColor = colorScheme.primary,
+                                unfocusedContainerColor = colorScheme.surfaceContainer,
+                                focusedContainerColor = colorScheme.surfaceContainer
                             ),
                             shape = RoundedCornerShape(12.dp)
                         )
@@ -183,15 +184,15 @@ fun RegisterScreen(
                             },
                             modifier = Modifier.fillMaxWidth(),
                             colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = BrandBlue,
-                                unfocusedBorderColor = outlineDark,
-                                focusedLabelColor = BrandBlue,
-                                unfocusedLabelColor = outlineDark,
-                                focusedTextColor = onSurfaceDark,
-                                unfocusedTextColor = onSurfaceDark,
-                                cursorColor = BrandBlue,
-                                unfocusedContainerColor = surfaceContainerDark,
-                                focusedContainerColor = surfaceContainerDark
+                                focusedBorderColor = colorScheme.primary,
+                                unfocusedBorderColor = colorScheme.outline,
+                                focusedLabelColor = colorScheme.primary,
+                                unfocusedLabelColor = colorScheme.outline,
+                                focusedTextColor = colorScheme.onSurface,
+                                unfocusedTextColor = colorScheme.onSurface,
+                                cursorColor = colorScheme.primary,
+                                unfocusedContainerColor = colorScheme.surfaceContainer,
+                                focusedContainerColor = colorScheme.surfaceContainer
                             ),
                             shape = RoundedCornerShape(12.dp)
                         )
@@ -201,8 +202,8 @@ fun RegisterScreen(
                         Button(
                             onClick = viewModel::register,
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = BrandGreen,
-                                contentColor = androidx.compose.ui.graphics.Color.Black
+                                containerColor = colorScheme.tertiary,
+                                contentColor = colorScheme.onTertiary
                             ),
                             shape = RoundedCornerShape(14.dp),
                             modifier = Modifier
@@ -223,7 +224,7 @@ fun RegisterScreen(
                             Text(
                                 text = "¿Ya tienes una cuenta? ",
                                 fontSize = 13.sp,
-                                color = outlineDark
+                                color = colorScheme.outline
                             )
 
                             TextButton(
@@ -234,8 +235,8 @@ fun RegisterScreen(
                                     .height(24.dp),
                                 contentPadding = PaddingValues(0.dp),
                                 colors = ButtonDefaults.textButtonColors(
-                                    containerColor = androidx.compose.ui.graphics.Color.Transparent,
-                                    contentColor = BrandGreen
+                                    containerColor = Color.Transparent,
+                                    contentColor = colorScheme.tertiary
                                 )
                             ) {
                                 Text(
