@@ -3,11 +3,14 @@ package com.example.scoreup.core.navigation
 import android.util.Log
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import androidx.compose.runtime.Composable
 import com.example.scoreup.features.login.presentation.screens.LoginScreen
 import com.example.scoreup.features.login.presentation.screens.RegisterScreen
 import com.example.scoreup.features.home.presentation.screens.HomeScreen
+import com.example.scoreup.features.challenges.presentation.screens.ChallengeDetailScreen
 import com.example.scoreup.features.ranking.presentation.screens.RankingScreen
 import com.example.scoreup.features.achievements.presentation.screens.AchievementsScreen
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -58,7 +61,23 @@ object HomeNavGraph : FeatureNavGraph {
             exitTransition = { fadeOut() }
         ) {
             Log.d("HomeNavGraph", "Renderizando pantalla Home")
-            HomeScreen()
+            HomeScreen(
+                onChallengeClick = { challengeId ->
+                    navController.navigate("challenge_detail/$challengeId")
+                }
+            )
+        }
+
+        navGraphBuilder.composable(
+            route = "challenge_detail/{challengeId}",
+            arguments = listOf(navArgument("challengeId") { type = NavType.IntType }),
+            enterTransition = { fadeIn() },
+            exitTransition = { fadeOut() }
+        ) {
+            Log.d("HomeNavGraph", "Renderizando pantalla ChallengeDetail")
+            ChallengeDetailScreen(
+                onBackClick = { navController.popBackStack() }
+            )
         }
     }
 }

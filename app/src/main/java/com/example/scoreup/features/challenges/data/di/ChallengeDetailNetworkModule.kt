@@ -1,7 +1,7 @@
-package com.example.scoreup.features.home.data.di
+package com.example.scoreup.features.challenges.data.di
 
 import com.example.scoreup.core.qualifiers.ApiNetworkModule
-import com.example.scoreup.features.home.data.datasources.remote.api.HomeApi
+import com.example.scoreup.features.challenges.data.datasources.remote.api.ChallengeDetailApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,13 +11,13 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object HomeNetworkModule {
+object ChallengeDetailNetworkModule {
 
     @Provides
     @Singleton
-    fun provideHomeApi(
+    fun provideChallengeDetailApi(
         @ApiNetworkModule retrofit: Retrofit
-    ): HomeApi {
-        return retrofit.create(HomeApi::class.java)
+    ): ChallengeDetailApi {
+        return retrofit.create(ChallengeDetailApi::class.java)
     }
 }

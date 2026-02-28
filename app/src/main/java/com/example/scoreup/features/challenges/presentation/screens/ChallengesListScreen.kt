@@ -1,12 +1,30 @@
-package com.example.scoreup.features.home.presentation.screens
+package com.example.scoreup.features.challenges.presentation.screens
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.EmojiEvents
+import androidx.compose.material.icons.filled.LocalFireDepartment
+import androidx.compose.material.icons.filled.MenuBook
+import androidx.compose.material.icons.filled.Pets
+import androidx.compose.material.icons.filled.RocketLaunch
+import androidx.compose.material.icons.filled.StarBorder
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -17,15 +35,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.scoreup.core.ui.theme.extendedColors
-import com.example.scoreup.features.home.presentation.components.AchievementCard
-import com.example.scoreup.features.home.presentation.components.ChallengeItem
-import com.example.scoreup.features.home.presentation.components.StatCard
-import com.example.scoreup.features.home.presentation.viewmodels.HomeViewModel
+import com.example.scoreup.features.challenges.presentation.components.ChallengeAchievementCard
+import com.example.scoreup.features.challenges.presentation.components.ChallengeListItem
+import com.example.scoreup.features.challenges.presentation.components.ChallengeStatCard
+import com.example.scoreup.features.challenges.presentation.viewmodels.ChallengesListViewModel
 
 @Composable
-fun HomeScreen(
+fun ChallengesListScreen(
     onChallengeClick: (Int) -> Unit = {},
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: ChallengesListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val colorScheme = MaterialTheme.colorScheme
@@ -73,21 +91,21 @@ fun HomeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    StatCard(
+                    ChallengeStatCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.StarBorder,
                         value = "185",
                         label = "Puntos",
                         iconColor = colorScheme.error
                     )
-                    StatCard(
+                    ChallengeStatCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.EmojiEvents,
                         value = "#4",
                         label = "Ranking",
                         iconColor = colorScheme.tertiary
                     )
-                    StatCard(
+                    ChallengeStatCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.LocalFireDepartment,
                         value = "7",
@@ -107,7 +125,7 @@ fun HomeScreen(
                     )
                 }
                 items(activeChallenges) { challenge ->
-                    ChallengeItem(
+                    ChallengeListItem(
                         challenge = challenge,
                         onClick = { onChallengeClick(challenge.idReto) }
                     )
@@ -125,7 +143,7 @@ fun HomeScreen(
                     )
                 }
                 items(completedChallenges) { challenge ->
-                    ChallengeItem(
+                    ChallengeListItem(
                         challenge = challenge,
                         onClick = { onChallengeClick(challenge.idReto) }
                     )
@@ -144,19 +162,19 @@ fun HomeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    AchievementCard(
+                    ChallengeAchievementCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.Pets,
                         label = "Primeros pasos",
                         iconColor = colorScheme.tertiary
                     )
-                    AchievementCard(
+                    ChallengeAchievementCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.RocketLaunch,
                         label = "Productivo",
                         iconColor = extended.accentOrange
                     )
-                    AchievementCard(
+                    ChallengeAchievementCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.MenuBook,
                         label = "Buen estudiante",
@@ -167,5 +185,3 @@ fun HomeScreen(
         }
     }
 }
-
-
