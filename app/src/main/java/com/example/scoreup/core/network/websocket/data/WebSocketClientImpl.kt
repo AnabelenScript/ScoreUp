@@ -17,9 +17,7 @@ import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class WebSocketClientImpl @Inject constructor(
     private val okHttpClient: OkHttpClient,
     private val tokenManager: TokenManager

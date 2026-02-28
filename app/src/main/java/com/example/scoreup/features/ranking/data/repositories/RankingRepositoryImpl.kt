@@ -1,30 +1,44 @@
 package com.example.scoreup.features.ranking.data.repositories
 
+import com.example.scoreup.core.storage.TokenManager
+import com.example.scoreup.features.ranking.data.datasources.remote.RankingWebSocketDataSource
 import com.example.scoreup.features.ranking.data.datasources.remote.api.RankingApi
+import com.example.scoreup.features.ranking.data.datasources.remote.mapper.toDomainList
 import com.example.scoreup.features.ranking.domain.entities.RankingUser
 import com.example.scoreup.features.ranking.domain.repositories.RankingRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class RankingRepositoryImpl @Inject constructor(
-    private val api: RankingApi
+    private val api: RankingApi,
+    private val webSocketDataSource: RankingWebSocketDataSource,
+    private val tokenManager: TokenManager
 ) : RankingRepository {
 
     override suspend fun getRanking(): List<RankingUser> {
-        // Simulación de API comentada
-        // val response = api.getRanking()
-        
-        // Datos Hardcoded para la vista
-        return listOf(
-            RankingUser(1, "Juan P.", 340, 1, 0),
-            RankingUser(2, "Luis R.", 295, 2, 0),
-            RankingUser(3, "Ana N.", 295, 3, 0),
-            RankingUser(4, "Carlos Molina (Tú)", 185, 4, 1, esUsuarioActual = true),
-            RankingUser(5, "Diego Fernandez", 170, 5, -1),
-            RankingUser(6, "Alberto Lara", 170, 6, -1),
-            RankingUser(7, "Roberto Juarez", 167, 7, 1),
-            RankingUser(8, "Jonathan Hernandez", 163, 8, 1),
-            RankingUser(9, "Angela Ruiz", 148, 9, -1),
-            RankingUser(10, "Jose Perez", 124, 10, 1)
-        )
+        val response = api.getRanking()
+        if (response.isSuccessful && response.body() != null) {
+            val currentUserId = tokenManager.getUserId()
+            return response.body()!!.ranking.toDomainList(currentUserId)
+        } else {
+            throw Exception("Error al obtener el ranking")
+        }
+    }
+
+    override fun observeRanking(): Flow<List<RankingUser>> {
+        val currentUserId = runBlocking { tokenManager.getUserId() }
+        return webSocketDataSource.rankingFlow.map { dtos ->
+            dtos.toDomainList(currentUserId)
+        }
+    }
+
+    override fun connectWebSocket() {
+        webSocketDataSource.connect()
+    }
+
+    override fun disconnectWebSocket() {
+        webSocketDataSource.disconnect()
     }
 }
