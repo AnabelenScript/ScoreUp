@@ -2,6 +2,7 @@ package com.example.scoreup.core.di
 
 import com.example.scoreup.core.network.interceptor.AuthInterceptor
 import com.example.scoreup.core.qualifiers.ApiNetworkModule
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +16,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson = Gson()
 
     @Provides
     @Singleton

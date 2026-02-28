@@ -5,6 +5,6 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface HomeApi {
-    @GET("challenges")
+    @GET("retos")
     suspend fun getChallenges(): Response<List<ChallengeDTO>>
 }

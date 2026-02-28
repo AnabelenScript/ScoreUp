@@ -28,6 +28,7 @@ class AuthRepositoryImpl @Inject constructor(
         if (response.isSuccessful && response.body() != null) {
             val user = response.body()!!.toDomain()
             tokenManager.saveToken(user.token)
+            tokenManager.saveUserId(user.id)
             return user
         } else {
             val errorBody = response.errorBody()?.string() ?: "Error en login"

@@ -19,6 +19,7 @@ class TokenManager @Inject constructor(
 ) {
     companion object {
         private val TOKEN_KEY = stringPreferencesKey("auth_token")
+        private val USER_ID_KEY = stringPreferencesKey("user_id")
     }
 
     val tokenFlow: Flow<String?> = context.dataStore.data.map { prefs ->
@@ -35,9 +36,20 @@ class TokenManager @Inject constructor(
         return context.dataStore.data.first()[TOKEN_KEY]
     }
 
+    suspend fun saveUserId(userId: Int) {
+        context.dataStore.edit { prefs ->
+            prefs[USER_ID_KEY] = userId.toString()
+        }
+    }
+
+    suspend fun getUserId(): Int? {
+        return context.dataStore.data.first()[USER_ID_KEY]?.toIntOrNull()
+    }
+
     suspend fun clearToken() {
         context.dataStore.edit { prefs ->
             prefs.remove(TOKEN_KEY)
+            prefs.remove(USER_ID_KEY)
         }
     }
 }
