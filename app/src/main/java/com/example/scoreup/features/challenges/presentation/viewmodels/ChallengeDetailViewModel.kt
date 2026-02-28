@@ -45,11 +45,15 @@ class ChallengeDetailViewModel @Inject constructor(
                 } catch (_: Exception) {
                     null
                 }
+                val isCompleted = userChallenge != null &&
+                        (userChallenge.status.equals("completado", ignoreCase = true) ||
+                                userChallenge.progress >= challenge.meta)
                 _uiState.update {
                     it.copy(
                         challenge = challenge,
                         userChallenge = userChallenge,
                         isJoined = userChallenge != null,
+                        completed = isCompleted,
                         isLoading = false
                     )
                 }
