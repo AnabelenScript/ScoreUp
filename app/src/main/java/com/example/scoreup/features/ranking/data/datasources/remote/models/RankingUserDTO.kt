@@ -1,9 +1,9 @@
 package com.example.scoreup.features.ranking.data.datasources.remote.models
 
+import com.google.gson.annotations.SerializedName
+
 data class RankingUserDTO(
-    val idUsuario: Int,
-    val nombre: String,
-    val puntos: Int,
-    val posicion: Int,
-    val tendencia: Int
+    @SerializedName("ID") val id: Int,
+    @SerializedName("Name") val name: String,
+    @SerializedName("TotalScore") val totalScore: Int
 )
