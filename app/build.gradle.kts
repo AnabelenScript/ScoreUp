@@ -1,6 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.secrets.gradle)
+    alias(libs.plugins.jetbrainsKotlinSerialization)
+    // Activa Hilt y KSP
+    alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -46,6 +51,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.transport.runtime)
+    implementation(libs.androidx.compose.ui.text.google.fonts)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -53,4 +60,15 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)       // viewModel()
+    implementation(libs.com.squareup.retrofit2.retrofit)            // Retrofit
+    implementation(libs.com.squareup.retrofit2.converter.json)      // JSON
+    implementation(libs.io.coil.kt.coil.compose)                    // Coil
+    implementation(libs.androidx.navigation.compose)                // Navigation
+    implementation(libs.androidx.compose.material.icons.extended)   // Icons extendend
+    implementation(libs.hilt.android)                               // Implementación de Hilt
+    implementation(libs.hilt.navigation.compose)                    // Integración con Jetpack Compose
+    ksp(libs.hilt.compiler)
+    implementation(libs.androidx.datastore.preferences)             // DataStore Preferences
+    implementation(libs.okhttp)                                     // OkHttp
 }
