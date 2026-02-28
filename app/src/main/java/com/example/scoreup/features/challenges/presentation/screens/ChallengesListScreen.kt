@@ -1,9 +1,8 @@
-package com.example.scoreup.features.home.presentation.screens
+package com.example.scoreup.features.challenges.presentation.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,13 +21,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.scoreup.core.ui.theme.extendedColors
+import com.example.scoreup.features.challenges.presentation.viewmodels.ChallengesListViewModel
 import com.example.scoreup.features.home.domain.entities.Challenge
-import com.example.scoreup.features.home.presentation.viewmodels.HomeViewModel
 
 @Composable
-fun HomeScreen(
+fun ChallengesListScreen(
     onChallengeClick: (Int) -> Unit = {},
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: ChallengesListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val colorScheme = MaterialTheme.colorScheme
@@ -76,21 +75,21 @@ fun HomeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    StatCard(
+                    ChallengeStatCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.StarBorder,
                         value = "185",
                         label = "Puntos",
                         iconColor = colorScheme.error
                     )
-                    StatCard(
+                    ChallengeStatCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.EmojiEvents,
                         value = "#4",
                         label = "Ranking",
                         iconColor = colorScheme.tertiary
                     )
-                    StatCard(
+                    ChallengeStatCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.LocalFireDepartment,
                         value = "7",
@@ -110,7 +109,7 @@ fun HomeScreen(
                     )
                 }
                 items(activeChallenges) { challenge ->
-                    ChallengeItem(
+                    ChallengeListItem(
                         challenge = challenge,
                         onClick = { onChallengeClick(challenge.idReto) }
                     )
@@ -128,7 +127,7 @@ fun HomeScreen(
                     )
                 }
                 items(completedChallenges) { challenge ->
-                    ChallengeItem(
+                    ChallengeListItem(
                         challenge = challenge,
                         onClick = { onChallengeClick(challenge.idReto) }
                     )
@@ -147,19 +146,19 @@ fun HomeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    AchievementCard(
+                    ChallengeAchievementCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.Pets,
                         label = "Primeros pasos",
                         iconColor = colorScheme.tertiary
                     )
-                    AchievementCard(
+                    ChallengeAchievementCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.RocketLaunch,
                         label = "Productivo",
                         iconColor = extended.accentOrange
                     )
-                    AchievementCard(
+                    ChallengeAchievementCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.MenuBook,
                         label = "Buen estudiante",
@@ -172,7 +171,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun StatCard(modifier: Modifier, icon: ImageVector, value: String, label: String, iconColor: Color) {
+fun ChallengeStatCard(modifier: Modifier, icon: ImageVector, value: String, label: String, iconColor: Color) {
     val colorScheme = MaterialTheme.colorScheme
     Card(
         modifier = modifier.height(110.dp),
@@ -204,7 +203,7 @@ fun StatCard(modifier: Modifier, icon: ImageVector, value: String, label: String
 }
 
 @Composable
-fun AchievementCard(modifier: Modifier, icon: ImageVector, label: String, iconColor: Color) {
+fun ChallengeAchievementCard(modifier: Modifier, icon: ImageVector, label: String, iconColor: Color) {
     val colorScheme = MaterialTheme.colorScheme
     Card(
         modifier = modifier.height(110.dp),
@@ -241,7 +240,7 @@ fun AchievementCard(modifier: Modifier, icon: ImageVector, label: String, iconCo
 }
 
 @Composable
-fun ChallengeItem(challenge: Challenge, onClick: () -> Unit = {}) {
+fun ChallengeListItem(challenge: Challenge, onClick: () -> Unit = {}) {
     val colorScheme = MaterialTheme.colorScheme
     val extended = MaterialTheme.extendedColors
     Card(

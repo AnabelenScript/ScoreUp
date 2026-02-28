@@ -1,4 +1,4 @@
-package com.example.scoreup.features.home.presentation.di
+package com.example.scoreup.features.challenges.presentation.di
 
 import com.example.scoreup.core.navigation.FeatureNavGraph
 import com.example.scoreup.core.navigation.HomeNavGraph
@@ -10,7 +10,7 @@ import dagger.multibindings.IntoSet
 
 @Module
 @InstallIn(SingletonComponent::class)
-object HomeModule {
+object ChallengeModule {
 
     @Provides
     @IntoSet
