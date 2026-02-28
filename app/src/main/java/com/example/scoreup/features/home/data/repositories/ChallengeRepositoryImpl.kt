@@ -17,7 +17,7 @@ class ChallengeRepositoryImpl @Inject constructor(
     override suspend fun getAllChallenges(): List<Challenge> {
         val response = homeApi.getChallenges()
         if (response.isSuccessful && response.body() != null) {
-            return response.body()!!.map { it.toDomain() }
+            return response.body()!!.retos.map { it.toDomain() }
         } else {
             throw Exception("Error al obtener los retos")
         }

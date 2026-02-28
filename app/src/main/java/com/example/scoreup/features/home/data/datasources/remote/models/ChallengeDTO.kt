@@ -3,12 +3,12 @@ package com.example.scoreup.features.home.data.datasources.remote.models
 import com.google.gson.annotations.SerializedName
 
 data class ChallengeDTO(
-    @SerializedName("id_reto") val idReto: Int,
-    @SerializedName("id_usuario") val idUsuario: Int,
-    @SerializedName("materia") val materia: String,
-    @SerializedName("descripcion") val descripcion: String,
-    @SerializedName("meta") val meta: String,
-    @SerializedName("puntos_otorgados") val puntosOtorgados: Int,
-    @SerializedName("fecha_limite") val fechaLimite: String,
-    @SerializedName("fecha_creacion") val fechaCreacion: String
+    @SerializedName("ID") val id: Int,
+    @SerializedName("UserID") val userId: Int,
+    @SerializedName("Subject") val subject: String,
+    @SerializedName("Description") val description: String,
+    @SerializedName("Goal") val goal: Int,
+    @SerializedName("PointsAwarded") val pointsAwarded: Int,
+    @SerializedName("Deadline") val deadline: String,
+    @SerializedName("CreatedAt") val createdAt: String
 )

@@ -5,7 +5,7 @@ data class Challenge(
     val idUsuario: Int,
     val materia: String,
     val descripcion: String,
-    val meta: String,
+    val meta: Int,
     val puntosOtorgados: Int,
     val fechaLimite: String,
     val fechaCreacion: String
