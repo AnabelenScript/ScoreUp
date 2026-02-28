@@ -16,7 +16,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -96,11 +95,6 @@ fun AchievementCard(achievement: Achievement) {
     val colorScheme = MaterialTheme.colorScheme
     val borderColor = if (achievement.isUnlocked) colorScheme.tertiary else androidx.compose.ui.graphics.Color.Transparent
     val iconColor = if (achievement.isUnlocked) colorScheme.tertiary else colorScheme.onSurfaceVariant
-    val icon: ImageVector = when(achievement.iconType) {
-        "footprint" -> Icons.Default.Pets
-        "lock" -> Icons.Default.Lock
-        else -> Icons.Default.EmojiEvents
-    }
 
     Card(
         modifier = Modifier
@@ -122,7 +116,7 @@ fun AchievementCard(achievement: Achievement) {
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Icon(
-                        imageVector = if (achievement.isUnlocked) icon else Icons.Default.Lock,
+                        imageVector = if (achievement.isUnlocked) Icons.Default.EmojiEvents else Icons.Default.Lock,
                         contentDescription = null,
                         tint = iconColor,
                         modifier = Modifier.size(24.dp)
@@ -133,10 +127,11 @@ fun AchievementCard(achievement: Achievement) {
             Spacer(modifier = Modifier.height(12.dp))
             
             Text(
-                text = achievement.title,
+                text = achievement.name,
                 color = colorScheme.onSurface,
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center
             )
             Text(
                 text = achievement.description,
@@ -147,17 +142,24 @@ fun AchievementCard(achievement: Achievement) {
             )
             Spacer(modifier = Modifier.height(12.dp))
 
-            Surface(
-                color = colorScheme.primaryContainer.copy(alpha = 0.4f),
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                Text(
-                    text = achievement.category,
-                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
-                    color = colorScheme.primary,
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Bold
-                )
+            val requirementText = buildString {
+                if (achievement.requiredPoints > 0) append("${achievement.requiredPoints} pts")
+                if (achievement.requiredPoints > 0 && achievement.requiredRetos > 0) append(" · ")
+                if (achievement.requiredRetos > 0) append("${achievement.requiredRetos} retos")
+            }
+            if (requirementText.isNotEmpty()) {
+                Surface(
+                    color = colorScheme.primaryContainer.copy(alpha = 0.4f),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text(
+                        text = requirementText,
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+                        color = colorScheme.primary,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
     }

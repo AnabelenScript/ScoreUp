@@ -2,6 +2,7 @@ package com.example.scoreup.features.achievements.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.scoreup.features.achievements.domain.usecases.EvaluateAchievementsUseCase
 import com.example.scoreup.features.achievements.domain.usecases.GetAchievementsUseCase
 import com.example.scoreup.features.achievements.presentation.states.AchievementState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,24 +15,32 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AchievementViewModel @Inject constructor(
-    private val getAchievementsUseCase: GetAchievementsUseCase
+    private val getAchievementsUseCase: GetAchievementsUseCase,
+    private val evaluateAchievementsUseCase: EvaluateAchievementsUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AchievementState())
     val uiState: StateFlow<AchievementState> = _uiState.asStateFlow()
 
     init {
-        getAchievements()
+        loadAchievements()
     }
 
-    fun getAchievements() {
+    fun loadAchievements() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true) }
+            _uiState.update { it.copy(isLoading = true, error = null) }
             try {
-                val achievements = getAchievementsUseCase()
+                // Primero evaluar logros pendientes, luego cargar la lista completa
+                val achievements = evaluateAchievementsUseCase()
                 _uiState.update { it.copy(achievements = achievements, isLoading = false) }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, error = e.message) }
+                // Si falla la evaluación, intentar solo cargar los logros
+                try {
+                    val achievements = getAchievementsUseCase()
+                    _uiState.update { it.copy(achievements = achievements, isLoading = false) }
+                } catch (e2: Exception) {
+                    _uiState.update { it.copy(isLoading = false, error = e2.message) }
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.example.scoreup.features.achievements.data.repositories
 
 import com.example.scoreup.features.achievements.data.datasources.remote.api.AchievementApi
+import com.example.scoreup.features.achievements.data.datasources.remote.mapper.toDomain
 import com.example.scoreup.features.achievements.domain.entities.Achievement
 import com.example.scoreup.features.achievements.domain.repositories.AchievementRepository
 import javax.inject.Inject
@@ -10,17 +11,40 @@ class AchievementRepositoryImpl @Inject constructor(
 ) : AchievementRepository {
 
     override suspend fun getAchievements(): List<Achievement> {
-        // Simulación de API comentada
-        // val response = api.getAchievements()
+        // 1. Obtener catálogo de logros
+        val catalogResponse = api.getAllAchievements()
+        val catalog = if (catalogResponse.isSuccessful && catalogResponse.body() != null) {
+            catalogResponse.body()!!.logros
+        } else {
+            throw Exception("Error al obtener los logros")
+        }
 
-        // 6 Logros diferentes hardcodeados
-        return listOf(
-            Achievement(1, "Primer paso", "Completa tu primer reto", "General", true, "footprint"),
-            Achievement(2, "Matemático", "Completa 10 retos de mate", "Matemáticas", false, "lock"),
-            Achievement(3, "Constante", "7 días de racha activa", "Social", false, "lock"),
-            Achievement(4, "Explorador", "Descubre 5 materias", "General", false, "lock"),
-            Achievement(5, "Escritor", "Completa 3 ensayos", "Español", false, "lock"),
-            Achievement(6, "Científico", "Resuelve 5 laboratorios", "Física", false, "lock")
-        )
+        // 2. Obtener logros del usuario
+        val userResponse = api.getUserAchievements()
+        val userAchievements = if (userResponse.isSuccessful && userResponse.body() != null) {
+            userResponse.body()!!.usuarioLogros
+        } else {
+            emptyList()
+        }
+
+        // 3. Mapear: cruzar catálogo con logros obtenidos
+        val unlockedMap = userAchievements.associateBy { it.logroId }
+
+        return catalog.map { dto ->
+            val userAchievement = unlockedMap[dto.id]
+            dto.toDomain(
+                isUnlocked = userAchievement != null,
+                obtainedAt = userAchievement?.obtainedAt
+            )
+        }
+    }
+
+    override suspend fun evaluateAchievements(): List<Achievement> {
+        val response = api.evaluateAchievements()
+        if (!response.isSuccessful) {
+            throw Exception("Error al evaluar logros")
+        }
+        // Después de evaluar, recargar la lista completa
+        return getAchievements()
     }
 }
