@@ -8,6 +8,7 @@ data class UsersUiState(
     val email: String = "",
     val password: String = "",
     val confirmPassword: String = "",
+    val phone: String = "",
     val isLoading: Boolean = false,
     val error: String? = null,
     val user: User? = null

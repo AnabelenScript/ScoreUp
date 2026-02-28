@@ -1,16 +1,20 @@
 package com.example.scoreup.features.login.presentation.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -31,12 +35,20 @@ fun RegisterScreen(
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
     val colorScheme = MaterialTheme.colorScheme
+    val context = LocalContext.current
 
     LaunchedEffect(uiState.user) {
         if (uiState.user != null) {
             navController.navigate("home") {
                 popUpTo("register") { inclusive = true }
             }
+        }
+    }
+
+    // Mostrar errores vía Toast
+    LaunchedEffect(uiState.error) {
+        uiState.error?.let {
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -59,6 +71,7 @@ fun RegisterScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(24.dp)
+                    .verticalScroll(rememberScrollState())
             ) {
 
                 Image(
@@ -99,6 +112,28 @@ fun RegisterScreen(
                             onValueChange = viewModel::onNameChange,
                             label = { Text("Nombre") },
                             placeholder = { Text("Ej. Juan Perez") },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = colorScheme.primary,
+                                unfocusedBorderColor = colorScheme.outline,
+                                focusedLabelColor = colorScheme.primary,
+                                unfocusedLabelColor = colorScheme.outline,
+                                focusedTextColor = colorScheme.onSurface,
+                                unfocusedTextColor = colorScheme.onSurface,
+                                cursorColor = colorScheme.primary,
+                                unfocusedContainerColor = colorScheme.surfaceContainer,
+                                focusedContainerColor = colorScheme.surfaceContainer
+                            ),
+                            shape = RoundedCornerShape(12.dp)
+                        )
+
+                        // Teléfono
+                        OutlinedTextField(
+                            value = uiState.phone,
+                            onValueChange = viewModel::onPhoneChange,
+                            label = { Text("Teléfono") },
+                            placeholder = { Text("Ej. 9613212121") },
                             singleLine = true,
                             modifier = Modifier.fillMaxWidth(),
                             colors = OutlinedTextFieldDefaults.colors(

@@ -3,6 +3,7 @@ package com.example.scoreup.features.login.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.scoreup.features.login.domain.entities.Auth
+import com.example.scoreup.features.login.domain.entities.RegisterData
 import com.example.scoreup.features.login.domain.usecases.LoginUseCase
 import com.example.scoreup.features.login.domain.usecases.RegisterUseCase
 import com.example.scoreup.features.login.presentation.screens.UsersUiState
@@ -38,6 +39,10 @@ class AuthViewModel @Inject constructor(
         _uiState.update { it.copy(confirmPassword = confirmPassword) }
     }
 
+    fun onPhoneChange(phone: String) {
+        _uiState.update { it.copy(phone = phone) }
+    }
+
 
     fun login() {
         _uiState.update { it.copy(isLoading = true, error = null) }
@@ -70,13 +75,22 @@ class AuthViewModel @Inject constructor(
     }
 
     fun register() {
+        val state = uiState.value
+
+        if (state.password != state.confirmPassword) {
+            _uiState.update { it.copy(error = "Las contraseñas no coinciden") }
+            return
+        }
+
         _uiState.update { it.copy(isLoading = true, error = null) }
 
         viewModelScope.launch {
             val result = registerUseCase(
-                Auth(
-                    email = uiState.value.email,
-                    password = uiState.value.password
+                RegisterData(
+                    nombre = state.name,
+                    email = state.email,
+                    password = state.password,
+                    phone = state.phone
                 )
             )
 

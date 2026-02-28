@@ -4,3 +4,10 @@ data class Auth(
     val email: String,
     val password: String
 )
+
+data class RegisterData(
+    val nombre: String,
+    val email: String,
+    val password: String,
+    val phone: String
+)
