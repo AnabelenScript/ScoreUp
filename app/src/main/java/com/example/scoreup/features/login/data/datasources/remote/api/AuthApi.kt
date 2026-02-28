@@ -1,20 +1,22 @@
 package com.example.scoreup.features.login.data.datasources.remote.api
 
-import com.example.scoreup.features.login.data.datasources.remote.models.AuthDTO
-import com.example.scoreup.features.login.data.datasources.remote.models.UserDTO
+import com.example.scoreup.features.login.data.datasources.remote.models.LoginRequestDTO
+import com.example.scoreup.features.login.data.datasources.remote.models.LoginResponseDTO
+import com.example.scoreup.features.login.data.datasources.remote.models.RegisterRequestDTO
+import com.example.scoreup.features.login.data.datasources.remote.models.RegisterResponseDTO
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
 
 interface AuthApi {
-    @POST("login")
+    @POST("users/login")
     suspend fun login(
-        @Body authDTO: AuthDTO
-    ): Response<UserDTO>
+        @Body request: LoginRequestDTO
+    ): Response<LoginResponseDTO>
 
-    @POST("register")
+    @POST("users/register")
     suspend fun register(
-        @Body authDTO: AuthDTO
-    ): Response<UserDTO>
+        @Body request: RegisterRequestDTO
+    ): Response<RegisterResponseDTO>
 }

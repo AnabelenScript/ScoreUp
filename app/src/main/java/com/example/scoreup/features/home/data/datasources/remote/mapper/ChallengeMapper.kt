@@ -5,13 +5,13 @@ import com.example.scoreup.features.home.domain.entities.Challenge
 
 fun ChallengeDTO.toDomain(): Challenge {
     return Challenge(
-        idReto = idReto,
-        idUsuario = idUsuario,
-        materia = materia,
-        descripcion = descripcion,
-        meta = meta,
-        puntosOtorgados = puntosOtorgados,
-        fechaLimite = fechaLimite,
-        fechaCreacion = fechaCreacion
+        idReto = id,
+        idUsuario = userId,
+        materia = subject,
+        descripcion = description,
+        meta = goal,
+        puntosOtorgados = pointsAwarded,
+        fechaLimite = deadline,
+        fechaCreacion = createdAt
     )
 }

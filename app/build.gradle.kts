@@ -69,4 +69,6 @@ dependencies {
     implementation(libs.hilt.android)                               // Implementación de Hilt
     implementation(libs.hilt.navigation.compose)                    // Integración con Jetpack Compose
     ksp(libs.hilt.compiler)
+    implementation(libs.androidx.datastore.preferences)             // DataStore Preferences
+    implementation(libs.okhttp)                                     // OkHttp
 }
