@@ -9,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.example.scoreup.core.navigation.FeatureNavGraph
 import com.example.scoreup.core.navigation.NavigationWrapper
+import com.example.scoreup.core.storage.TokenManager
 import com.example.scoreup.core.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -19,6 +20,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var navGraphs: Set<@JvmSuppressWildcards FeatureNavGraph>
 
+    @Inject
+    lateinit var tokenManager: TokenManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -28,7 +32,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier.fillMaxSize()
                 ) { _ ->
-                    NavigationWrapper(navGraphs = navGraphs)
+                    NavigationWrapper(navGraphs = navGraphs, tokenManager = tokenManager)
                 }
             }
         }
