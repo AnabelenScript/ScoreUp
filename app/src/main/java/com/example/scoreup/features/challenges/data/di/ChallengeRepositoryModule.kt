@@ -1,4 +1,4 @@
-package com.example.scoreup.features.home.data.di
+package com.example.scoreup.features.challenges.data.di
 
 import com.example.scoreup.features.home.data.repositories.ChallengeRepositoryImpl
 import com.example.scoreup.features.home.domain.repositories.ChallengeRepository
@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class HomeRepositoryModule {
+abstract class ChallengeRepositoryModule {
 
     @Binds
     @Singleton
