@@ -1,6 +1,6 @@
 package com.example.scoreup.features.challenges.domain.repositories
 
-import com.example.scoreup.features.home.domain.entities.Challenge
+import com.example.scoreup.features.challenges.domain.entities.Challenge
 import kotlinx.coroutines.flow.Flow
 
 interface ChallengeRepository {
@@ -14,4 +14,6 @@ interface ChallengeRepository {
 
     /** Cierra la conexión WebSocket */
     fun disconnectWebSocket()
+
+    suspend fun createChallenge(challenge: Challenge): Challenge
 }
