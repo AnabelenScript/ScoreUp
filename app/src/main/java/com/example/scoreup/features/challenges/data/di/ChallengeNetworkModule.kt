@@ -1,6 +1,7 @@
 package com.example.scoreup.features.challenges.data.di
 
 import com.example.scoreup.core.qualifiers.ApiNetworkModule
+import com.example.scoreup.features.challenges.data.datasources.remote.api.ChallengeApi
 import com.example.scoreup.features.home.data.datasources.remote.api.HomeApi
 import dagger.Module
 import dagger.Provides
@@ -19,5 +20,13 @@ object ChallengeNetworkModule {
         @ApiNetworkModule retrofit: Retrofit
     ): HomeApi {
         return retrofit.create(HomeApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideChallengeApi(
+        @ApiNetworkModule retrofit: Retrofit
+    ): ChallengeApi {
+        return retrofit.create(ChallengeApi::class.java)
     }
 }

@@ -20,8 +20,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun AchievementStatsSection(
     totalPoints: String,
-    completedChallenges: String,
-    activeDays: String
+    seniority: String
 ) {
     val colorScheme = MaterialTheme.colorScheme
 
@@ -38,15 +37,14 @@ fun AchievementStatsSection(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                text = "Estadisticas",
+                text = "Estadísticas",
                 color = colorScheme.onSurface,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
             )
 
             StatRow(label = "Puntos totales", value = totalPoints)
-            StatRow(label = "Retos completados", value = completedChallenges)
-            StatRow(label = "Días activo", value = activeDays)
+            StatRow(label = "Antigüedad", value = seniority)
         }
     }
 }

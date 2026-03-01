@@ -11,6 +11,7 @@ import com.example.scoreup.features.login.presentation.screens.LoginScreen
 import com.example.scoreup.features.login.presentation.screens.RegisterScreen
 import com.example.scoreup.features.home.presentation.screens.HomeScreen
 import com.example.scoreup.features.challenges.presentation.screens.ChallengeDetailScreen
+import com.example.scoreup.features.challenges.presentation.screens.CreateChallengeScreen
 import com.example.scoreup.features.ranking.presentation.screens.RankingScreen
 import com.example.scoreup.features.achievements.presentation.screens.AchievementsScreen
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -110,6 +111,24 @@ object AchievementsNavGraph : FeatureNavGraph {
         ) {
             Log.d("AchievementsNavGraph", "Renderizando pantalla Logros")
             AchievementsScreen()
+        }
+    }
+}
+
+object CreateNavGraph : FeatureNavGraph {
+    override fun registerGraph(
+        navGraphBuilder: NavGraphBuilder,
+        navController: NavHostController
+    ) {
+        navGraphBuilder.composable(
+            route = "crear",
+            enterTransition = { fadeIn() },
+            exitTransition = { fadeOut() }
+        ) {
+            Log.d("CreateNavGraph", "Renderizando pantalla Crear Reto")
+            CreateChallengeScreen(
+                onBackClick = { navController.popBackStack() }
+            )
         }
     }
 }
