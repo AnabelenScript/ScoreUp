@@ -38,8 +38,19 @@ fun CreateChallengeScreen(
     val subjects = listOf("Matemáticas", "Programación", "Física", "Historia", "Inglés", "Química")
     var showSubjectMenu by remember { mutableStateOf(false) }
     var showDatePicker by remember { mutableStateOf(false) }
-    
-    val datePickerState = rememberDatePickerState()
+
+    val datePickerState = rememberDatePickerState(
+        selectableDates = object : SelectableDates {
+            override fun isSelectableDate(utcTimeMillis: Long): Boolean {
+                val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+                calendar.set(Calendar.HOUR_OF_DAY, 0)
+                calendar.set(Calendar.MINUTE, 0)
+                calendar.set(Calendar.SECOND, 0)
+                calendar.set(Calendar.MILLISECOND, 0)
+                return utcTimeMillis >= calendar.timeInMillis
+            }
+        }
+    )
 
     LaunchedEffect(uiState.isSuccess) {
         if (uiState.isSuccess) {
@@ -107,7 +118,7 @@ fun CreateChallengeScreen(
                         onValueChange = {},
                         readOnly = true,
                         placeholder = { Text("Selecciona una materia", color = colorScheme.outline) },
-                        modifier = Modifier.fillMaxWidth().clickable { showSubjectMenu = true },
+                        modifier = Modifier.fillMaxWidth(),
                         enabled = false,
                         trailingIcon = {
                             Icon(
@@ -124,6 +135,7 @@ fun CreateChallengeScreen(
                         ),
                         shape = RoundedCornerShape(12.dp)
                     )
+                    Box(modifier = Modifier.matchParentSize().clickable { showSubjectMenu = true })
                     DropdownMenu(
                         expanded = showSubjectMenu,
                         onDismissRequest = { showSubjectMenu = false },
@@ -139,9 +151,9 @@ fun CreateChallengeScreen(
                             )
                         }
                     }
-                    Box(modifier = Modifier.matchParentSize().clickable { showSubjectMenu = true })
                 }
             }
+
             Column {
                 Text(
                     "Descripción del reto",
@@ -167,6 +179,7 @@ fun CreateChallengeScreen(
             }
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                // Meta numérica
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         "Meta numérica",
@@ -190,6 +203,7 @@ fun CreateChallengeScreen(
                         shape = RoundedCornerShape(12.dp)
                     )
                 }
+
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         "Puntos otorgados",
@@ -214,6 +228,7 @@ fun CreateChallengeScreen(
                     )
                 }
             }
+
             Column {
                 Text(
                     "Fecha límite",
@@ -227,7 +242,7 @@ fun CreateChallengeScreen(
                         onValueChange = {},
                         readOnly = true,
                         placeholder = { Text("YYYY-MM-DD", color = colorScheme.outline) },
-                        modifier = Modifier.fillMaxWidth().clickable { showDatePicker = true },
+                        modifier = Modifier.fillMaxWidth(),
                         enabled = false,
                         trailingIcon = {
                             Icon(
@@ -249,6 +264,7 @@ fun CreateChallengeScreen(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
+
             if (uiState.error != null) {
                 Text(
                     text = uiState.error!!,
@@ -257,6 +273,7 @@ fun CreateChallengeScreen(
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
             }
+
             if (uiState.isLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.CenterHorizontally),

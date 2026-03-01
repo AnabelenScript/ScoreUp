@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.scoreup.core.ui.theme.extendedColors
-import com.example.scoreup.features.home.presentation.components.AchievementCard
 import com.example.scoreup.features.home.presentation.components.ChallengeItem
 import com.example.scoreup.features.home.presentation.components.StatCard
 import com.example.scoreup.features.home.presentation.viewmodels.HomeViewModel
@@ -52,14 +51,18 @@ fun HomeScreen(
                         color = colorScheme.primaryContainer
                     ) {
                         Box(contentAlignment = Alignment.Center) {
-                            Text("CM", color = colorScheme.onPrimaryContainer, fontWeight = FontWeight.Bold)
+                            Text(
+                                text = uiState.userName.take(2).uppercase(),
+                                color = colorScheme.onPrimaryContainer,
+                                fontWeight = FontWeight.Bold
+                            )
                         }
                     }
                     Spacer(modifier = Modifier.width(12.dp))
                     Column {
                         Text("Bienvenido de nuevo", color = colorScheme.onSurfaceVariant, fontSize = 14.sp)
                         Text(
-                            "Carlos Molina Mendoza",
+                            text = if (uiState.userName.isBlank()) "Usuario" else uiState.userName,
                             color = colorScheme.onSurface,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
@@ -76,26 +79,27 @@ fun HomeScreen(
                     StatCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.StarBorder,
-                        value = "185",
+                        value = uiState.points.toString(),
                         label = "Puntos",
                         iconColor = colorScheme.error
                     )
                     StatCard(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.EmojiEvents,
-                        value = "#4",
+                        value = "#${uiState.ranking}",
                         label = "Ranking",
                         iconColor = colorScheme.tertiary
                     )
                     StatCard(
                         modifier = Modifier.weight(1f),
-                        icon = Icons.Default.LocalFireDepartment,
-                        value = "7",
-                        label = "Días activo",
+                        icon = Icons.Default.History,
+                        value = uiState.seniority,
+                        label = "Antigüedad",
                         iconColor = extended.accentOrange
                     )
                 }
             }
+
             val activeChallenges = uiState.challenges.filter { it.fechaLimite != "Completado" }
             if (activeChallenges.isNotEmpty()) {
                 item {
@@ -131,41 +135,6 @@ fun HomeScreen(
                     )
                 }
             }
-            item {
-                Text(
-                    "Logros recientes",
-                    color = colorScheme.onSurface,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp
-                )
-            }
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    AchievementCard(
-                        modifier = Modifier.weight(1f),
-                        icon = Icons.Default.Pets,
-                        label = "Primeros pasos",
-                        iconColor = colorScheme.tertiary
-                    )
-                    AchievementCard(
-                        modifier = Modifier.weight(1f),
-                        icon = Icons.Default.RocketLaunch,
-                        label = "Productivo",
-                        iconColor = extended.accentOrange
-                    )
-                    AchievementCard(
-                        modifier = Modifier.weight(1f),
-                        icon = Icons.Default.MenuBook,
-                        label = "Buen estudiante",
-                        iconColor = colorScheme.primary
-                    )
-                }
-            }
         }
     }
 }
-
-

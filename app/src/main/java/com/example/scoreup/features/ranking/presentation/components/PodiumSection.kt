@@ -22,27 +22,36 @@ fun PodiumSection(topUsers: List<RankingUser>) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(280.dp)
+            .height(300.dp)
             .padding(vertical = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.Bottom
     ) {
-        second?.let { PodiumBar(it, Modifier.weight(1f), height = 140.dp, extended.podiumSecond) }
+        // Segundo lugar (Izquierda)
+        Box(modifier = Modifier.weight(1f).align(Alignment.Bottom)) {
+            second?.let { PodiumBar(it, Modifier, height = 130.dp, extended.podiumSecond) }
+        }
+
+        // Primer lugar (Centro) - Más alto
         first?.let { 
             Column(
                 modifier = Modifier.weight(1.2f),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Bottom
             ) {
                 Icon(
                     imageVector = Icons.Default.EmojiEvents,
                     contentDescription = null,
                     tint = extended.accentGold,
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier.size(36.dp)
                 )
-                PodiumBar(it, Modifier, height = 180.dp, extended.podiumFirst, hasCrown = true)
+                PodiumBar(it, Modifier, height = 190.dp, extended.podiumFirst, hasCrown = true)
             }
         }
 
-        third?.let { PodiumBar(it, Modifier.weight(1f), height = 120.dp, extended.podiumThird) }
+        // Tercer lugar (Derecha)
+        Box(modifier = Modifier.weight(1f).align(Alignment.Bottom)) {
+            third?.let { PodiumBar(it, Modifier, height = 100.dp, extended.podiumThird) }
+        }
     }
 }
