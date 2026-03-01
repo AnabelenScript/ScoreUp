@@ -40,7 +40,9 @@ class AuthViewModel @Inject constructor(
     }
 
     fun onPhoneChange(phone: String) {
-        _uiState.update { it.copy(phone = phone) }
+        if (phone.isEmpty() || phone.all { it.isDigit() }) {
+            _uiState.update { it.copy(phone = phone) }
+        }
     }
 
 

@@ -15,6 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.scoreup.features.home.domain.entities.Challenge
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Composable
 fun ChallengeItem(challenge: Challenge, onClick: () -> Unit = {}) {
@@ -33,12 +35,12 @@ fun ChallengeItem(challenge: Challenge, onClick: () -> Unit = {}) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Surface(
-                    color = colorScheme.primaryContainer,
+                    color = colorScheme.primaryContainer.copy(alpha = 0.4f),
                     shape = RoundedCornerShape(12.dp)
                 ) {
                     Text(
                         text = challenge.materia,
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
                         color = colorScheme.primary,
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp
@@ -58,8 +60,20 @@ fun ChallengeItem(challenge: Challenge, onClick: () -> Unit = {}) {
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp)) {
                 Icon(Icons.Default.Schedule, null, tint = colorScheme.onSurfaceVariant, modifier = Modifier.size(14.dp))
                 Spacer(modifier = Modifier.width(4.dp))
-                Text(challenge.fechaLimite, color = colorScheme.onSurfaceVariant, fontSize = 12.sp)
+                Text(formatDeadline(challenge.fechaLimite), color = colorScheme.onSurfaceVariant, fontSize = 12.sp)
             }
         }
+    }
+}
+
+private fun formatDeadline(deadline: String): String {
+    if (deadline == "Completado") return deadline
+    return try {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val outputFormat = SimpleDateFormat("dd MMM yyyy", Locale("es", "ES"))
+        val date = inputFormat.parse(deadline.substringBefore("T"))
+        date?.let { outputFormat.format(it) } ?: deadline
+    } catch (e: Exception) {
+        deadline
     }
 }

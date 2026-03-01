@@ -75,9 +75,8 @@ fun AchievementsScreen(
 
             item(span = { GridItemSpan(maxLineSpan) }) {
                 AchievementStatsSection(
-                    totalPoints = "185",
-                    completedChallenges = "1",
-                    activeDays = "7"
+                    totalPoints = uiState.totalPoints,
+                    seniority = uiState.seniority
                 )
             }
         }
